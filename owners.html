@@ -1,4 +1,4 @@
-<html ng-app>
+<html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -9,10 +9,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     
 </head>
-    <body ng-init="filtro='';
-               owners=[{'name':'Propietario 1', 'address':'Cartuja', 'phone':'654789654','numPets':2},
-                       {'name':'Propietario 2', 'address':'Cartuja', 'phone':'654789654','numPets':0},
-                       {'name':'Propietario 3', 'address':'Cartuja', 'phone':'654789654','numPets':1}];">
+    <body ng-app="petclinicApp" ng-controller="Controller as ctrl">
         
         <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -40,11 +37,12 @@
         <h1>Propietarios</h1>
             <div class="well">
                 <h3><strong>Busqueda</strong></h3>                     
-                    <input type="text" class="form-control" placeholder="indique el nombre del propietario" ng-model="filtro">
+                    <input type="text" class="form-control" placeholder="indique el nombre del propietario" ng-model="ctrl.filtro">
                 <button type="button" class="btn btn-success" style="margin-top:4ex">Buscar</button>
+                <button type="button" class="btn btn-info" ng-click="ctrl.addOwner('Manu','sevilla', '12345678', 6)" style="margin-top:4ex">Añadir</button>
             </div>
             
-            <p ng-show="filtro != ''">Filtrado por {{filtro}}</p>
+            <p ng-show="ctrl.filtro != ''">Filtrado por {{ctrl.filtro}}</p>
             <table class="table">
                 <tr>
                     <thead>
@@ -56,19 +54,24 @@
                         <th>acciones</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="o in owners" ng-class="o.numPets==0 ? 'danger' : ''"><!--'danger' : o.numPets==0-->
-                            <td>{{owners.indexOf(o)+1}}</td>
-                            <td>{{o.name}}</td>
+                        <tr ng-repeat="o in ctrl.getOwners | filter:{name:ctrl.filtro} | orderBy : 'numPets'" ng-class="o.numPets==0 ? 'danger' : ''"><!--'danger' : o.numPets==0-->
+                            <td>{{ctrl.getOwners.indexOf(o)+1}}</td>
+                            <td>{{o.name | uppercase}}</td>
                             <td>{{o.address}}</td>
-                            <td>{{o.phone}}</td>
+                            <td>{{o.phone | Telefono}}</td>
                             <td>{{o.numPets}}</td>
-                            <td><button class="btn btn-danger" ng-click="owners.splice(owners.indexOf(o),1)" type="button">x</button></td>
+                            <td><button class="btn btn-danger" ng-click="ctrl.deleteOwners($index)" type="button">x</button></td>
                         </tr>
+                       
                         
                     </tbody>
                 </tr>
             </table>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+        <script src="angular.min.js"></script>       
+        <script src="app.js"></script>
+        <script src="OwnersController.js"></script>
+        <script src="OwnersFactory.js"></script>
+        <script src="OwnerFilter.js"></script>
     </body>
 </html>
