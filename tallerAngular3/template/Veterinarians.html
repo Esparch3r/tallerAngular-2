@@ -1,0 +1,33 @@
+<div class="jumbotron">
+    <div class="container">
+      <div class="col-md-12">
+        <h1>Veterinarians</h1>
+        <form class="form-horizontal well well-lg">
+        <strong>Search to:</strong>
+          <input type="text" class="form-control" placeholder="Text input">
+          <button type="button" class="btn btn-success">Search</button>
+        </form>
+
+        <p>Filter by ...</p>
+        <table class="table">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>FirstName</th> 
+              <th>LastName</th>
+              <th>Nº especialities</th>
+              
+            </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vet in vc.vets">
+                    <td>{{vet.id}}</td>
+                    <td>{{vet.firstName}}</td>
+                    <td>{{vet.lastName}}</td>
+                    <td>{{vet.nrOfSpecialties}}</td>              
+                </tr>
+            </tbody>
+          </table>  
+        </div>
+        </div>
+        </div>
